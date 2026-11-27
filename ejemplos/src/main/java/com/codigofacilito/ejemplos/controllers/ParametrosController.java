@@ -2,7 +2,6 @@ package com.codigofacilito.ejemplos.controllers;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +14,12 @@ import com.codigofacilito.ejemplos.services.IService;
 
 @Controller
 public class ParametrosController {
-	
-	@Autowired
+
 	IService equipoService;
+
+	public ParametrosController(IService equipoService) {
+		this.equipoService = equipoService;
+	}
 
 	@GetMapping("/parametros")
 	public String parametros(@RequestParam(defaultValue = "") String valor,
@@ -38,7 +40,7 @@ public class ParametrosController {
 		if (equipoOptional.isPresent()) {
 			Optional<Jugador> jugadorOptional = equipoOptional.get().getPlantilla().stream()
 					.filter(jugador -> numero == jugador.getNumero()).findFirst();
-			
+
 			if (jugadorOptional.isPresent()) {
 				model.addAttribute("jugador", jugadorOptional.get());
 			}
