@@ -8,6 +8,8 @@ function actorSelected(select){
 	option.disabled = "disabled";
 	select.selectedIndex = 0;
 	
+	agregarActor(id, nombre, urlImagen);
+	
 	let ids = $("#ids").val();
 	
 	if (ids == ""){
@@ -23,10 +25,9 @@ function agregarActor(id, nombre, urlImagen){
 			<img src="{URL-IMAGEN}" class="card-img-top">
 			<div class="card-body">
 				<p class="card-text">{NOMBRE}</p>
-				<button class="btn btn-danger" data-id="{ID}" onclick="eliminarActor(this)">Eliminar</button>
+				<button type="button" class="btn btn-danger" data-id="{ID}" onclick="eliminarActor(this); return false">Eliminar</button>
 			</div>
-		</div>
-	`
+		</div>`;
 	
 	htmlString = htmlString.replace("{URL-IMAGEN}", urlImagen);
 	htmlString = htmlString.replace("{NOMBRE}", nombre);
@@ -38,5 +39,11 @@ function agregarActor(id, nombre, urlImagen){
 function eliminarActor(btn){
 	let id = btn.dataset.id;
 	let node = btn.parentElement.parentElement;
-	let arrayIds = $("#ids").val().spli(",").filter(idActor => idActor != id);
+	let arrayIds = $("#ids").val().split(",").filter(idActor => idActor != id);
+	
+	$("#ids").val(arrayIds.join(","));
+	
+	$(`#protagonistas option[value="${id}"]`).prop("disabled", false);
+	
+	$(node).remove();
 }	

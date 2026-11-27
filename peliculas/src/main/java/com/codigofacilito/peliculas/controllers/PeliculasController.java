@@ -22,13 +22,13 @@ public class PeliculasController {
 	private IPeliculaService service;
 	private IGeneroService generoService;
 	private IActorService actorService;
-	
+
 	public PeliculasController(IPeliculaService service, IGeneroService generoService, IActorService actorService) {
 		this.service = service;
 		this.generoService = generoService;
 		this.actorService = actorService;
 	}
-	
+
 	@GetMapping("pelicula")
 	public String crear(Model model) {
 		Pelicula pelicula = new Pelicula();
@@ -38,7 +38,7 @@ public class PeliculasController {
 		model.addAttribute("titulo", "Nueva Pelicula");
 		return "pelicula";
 	}
-	
+
 	@GetMapping("pelicula/{id}")
 	public String editar(@PathVariable(name = "id") Long id, Model model) {
 		Pelicula pelicula = new Pelicula();
@@ -48,18 +48,18 @@ public class PeliculasController {
 		model.addAttribute("titulo", "Editar Pelicula");
 		return "pelicula";
 	}
-	
+
 	@PostMapping("/pelicula")
-	public String guardar(Pelicula pelicula, @ModelAttribute(name="ids") String ids) {
+	public String guardar(Pelicula pelicula, @ModelAttribute(name = "ids") String ids) {
 		List<Long> idsProtagonistas = Arrays.stream(ids.split(",")).map(Long::parseLong).collect(Collectors.toList());
 		List<Actor> protagonistas = actorService.findAllById(idsProtagonistas);
 		pelicula.setProtagonistas(protagonistas);
-		
+
 		service.save(pelicula);
 		return "redirect:home";
 	}
-	
-	@GetMapping({"/", "/home", "/index"})
+
+	@GetMapping({ "/", "/home", "/index" })
 	public String home() {
 		return "home";
 	}
