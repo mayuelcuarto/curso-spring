@@ -11,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
@@ -32,6 +33,8 @@ public class Pelicula implements Serializable {
 	
 	@OneToOne
 	private Genero genero;
+	
+	@ManyToMany
 	private List<Actor> protagonistas;
 
 	public Long getId() {
