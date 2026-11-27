@@ -1,8 +1,8 @@
 package com.codigofacilito.ejemplos.controllers;
 
-import java.util.List;
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.codigofacilito.ejemplos.models.Equipo;
 import com.codigofacilito.ejemplos.models.Jugador;
-import com.codigofacilito.ejemplos.services.EquipoService;
+import com.codigofacilito.ejemplos.services.IService;
 
 @Controller
 public class ParametrosController {
 	
-	EquipoService equipoService = new EquipoService();
+	@Autowired
+	IService equipoService;
 
 	@GetMapping("/parametros")
 	public String parametros(@RequestParam(defaultValue = "") String valor,

@@ -2,10 +2,13 @@ package com.codigofacilito.ejemplos.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.codigofacilito.ejemplos.models.Equipo;
 import com.codigofacilito.ejemplos.models.Jugador;
 
-public class EquipoService {
+@Service
+public class EquipoService implements IService {
 	public List<Equipo> getTodos() {
 		Equipo barcelona = new Equipo();
 		barcelona.setNombre("Barcelona");
