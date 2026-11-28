@@ -70,7 +70,9 @@ public class PeliculasController {
 	}
 
 	@GetMapping({ "/", "/home", "/index" })
-	public String home() {
+	public String home(Model model) {
+		model.addAttribute("msj", "La app está en mantenimiento");
+		model.addAttribute("tipoMsj", "danger");
 		return "home";
 	}
 }
