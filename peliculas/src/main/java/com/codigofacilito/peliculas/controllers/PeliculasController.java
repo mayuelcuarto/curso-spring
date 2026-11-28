@@ -51,8 +51,19 @@ public class PeliculasController {
 
 	@GetMapping("pelicula/{id}")
 	public String editar(@PathVariable(name = "id") Long id, Model model) {
-		Pelicula pelicula = new Pelicula();
+		Pelicula pelicula = service.findById(id);
+		String ids = "";
+		
+		for (Actor actor : pelicula.getProtagonistas() ) {
+			if("".equals(ids)) {
+				ids = actor.getId().toString();
+			} else {
+				ids = ids + "," + actor.getId().toString();
+			}
+		}
+		
 		model.addAttribute("pelicula", pelicula);
+		model.addAttribute("ids", ids);
 		model.addAttribute("generos", generoService.findAll());
 		model.addAttribute("actores", actorService.findAll());
 		model.addAttribute("titulo", "Editar Pelicula");
@@ -81,9 +92,11 @@ public class PeliculasController {
 			pelicula.setImagen("_default.jpg");
 		}
 		
-		List<Long> idsProtagonistas = Arrays.stream(ids.split(",")).map(Long::parseLong).collect(Collectors.toList());
-		List<Actor> protagonistas = actorService.findAllById(idsProtagonistas);
-		pelicula.setProtagonistas(protagonistas);
+		if(ids != null && !"".equals(ids)) {
+			List<Long> idsProtagonistas = Arrays.stream(ids.split(",")).map(Long::parseLong).collect(Collectors.toList());
+			List<Actor> protagonistas = actorService.findAllById(idsProtagonistas);
+			pelicula.setProtagonistas(protagonistas);
+		}
 
 		service.save(pelicula);
 		return "redirect:home";
@@ -99,5 +112,12 @@ public class PeliculasController {
 		//model.addAttribute("msj", "La app está en mantenimiento");
 		//model.addAttribute("tipoMsj", "danger");
 		return "home";
+	}
+	
+	@GetMapping({ "/listado" })
+	public String listado(Model model) {
+		model.addAttribute("titulo", "Listado de peliculas");
+		model.addAttribute("peliculas", service.findAll());
+		return "listado";
 	}
 }
