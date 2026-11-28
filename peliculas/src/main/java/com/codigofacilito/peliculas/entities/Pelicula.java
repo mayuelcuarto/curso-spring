@@ -27,7 +27,7 @@ public class Pelicula implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	
+
 	@NotEmpty(message = "El nombre no debe ser vacío")
 	private String nombre;
 	@Column(name = "fecha_estreno")
@@ -35,13 +35,15 @@ public class Pelicula implements Serializable {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	@NotNull(message = "El campo fecha de estreno no debe estar vacío")
 	private Date fechaEstreno;
-	
+
 	@NotNull()
 	@ManyToOne
 	private Genero genero;
-	
+
 	@ManyToMany
 	private List<Actor> protagonistas;
+
+	private String imagen;
 
 	public Long getId() {
 		return id;
@@ -81,6 +83,14 @@ public class Pelicula implements Serializable {
 
 	public void setProtagonistas(List<Actor> protagonistas) {
 		this.protagonistas = protagonistas;
+	}
+
+	public String getImagen() {
+		return imagen;
+	}
+
+	public void setImagen(String imagen) {
+		this.imagen = imagen;
 	}
 
 }
